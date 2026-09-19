@@ -1,0 +1,818 @@
+[
+ {
+  "id": "c001",
+  "module": "Linux",
+  "q": "查看占用 CPU / 内存最高的 10 个进程",
+  "a": "`ps aux --sort=-%cpu \\"
+ },
+ {
+  "id": "c002",
+  "module": "Linux",
+  "q": "统计 Nginx 日志中访问量 Top10 的 IP",
+  "a": "awk 取字段 + sort + uniq -c + sort -rn + head，一条命令写出"
+ },
+ {
+  "id": "c003",
+  "module": "Linux",
+  "q": "统计日志中各状态码数量与占比",
+  "a": "awk 计数 + 排序；大文件用 zgrep 处理压缩日志"
+ },
+ {
+  "id": "c004",
+  "module": "Linux",
+  "q": "找出端口被哪个进程占用",
+  "a": "`ss -lntp` / `lsof -i:8080` / netstat -anp；说明 TIME_WAIT 与 CLOSE_WAIT"
+ },
+ {
+  "id": "c005",
+  "module": "Linux",
+  "q": "磁盘满了怎么排查",
+  "a": "df -h → du -sh 逐层 → 找大文件 find / -size +1G；说明 inode 满与空间满是两回事"
+ },
+ {
+  "id": "c006",
+  "module": "Linux",
+  "q": "大日志清理与滚动",
+  "a": "find + -mtime +3 删除、logrotate、split 切分"
+ },
+ {
+  "id": "c007",
+  "module": "Linux",
+  "q": "文件句柄数不够的报错怎么处理",
+  "a": "ulimit -n、/etc/security/limits.conf、lsof \\"
+ },
+ {
+  "id": "c008",
+  "module": "Linux",
+  "q": "进程假死怎么定位",
+  "a": "jstack / jstat（JVM 进程）、strace、/proc/<pid>/status、线程状态分析"
+ },
+ {
+  "id": "c009",
+  "module": "Linux",
+  "q": "内存被谁吃了，OOM 怎么查",
+  "a": "free -h、top、dmesg \\"
+ },
+ {
+  "id": "c010",
+  "module": "Linux",
+  "q": "软链接与硬链接的区别",
+  "a": "inode 层面解释，删除源文件后的差异"
+ },
+ {
+  "id": "c011",
+  "module": "Linux",
+  "q": "免密登录怎么配",
+  "a": "ssh-keygen + ssh-copy-id + authorized_keys 权限 600"
+ },
+ {
+  "id": "c012",
+  "module": "Linux",
+  "q": "定时任务怎么写",
+  "a": "crontab 五段含义、输出重定向、环境变量缺失的坑"
+ },
+ {
+  "id": "c013",
+  "module": "Linux",
+  "q": "查看网络连通性",
+  "a": "ping / telnet / curl -v / traceroute / nc"
+ },
+ {
+  "id": "c014",
+  "module": "Linux",
+  "q": "文件传输",
+  "a": "scp / rsync 增量同步；传输中断怎么续传"
+ },
+ {
+  "id": "c015",
+  "module": "Linux",
+  "q": "写一个 shell 脚本统计数据文件行数并按大小排序",
+  "a": "循环 + wc -l + sort；考察脚本基本功"
+ },
+ {
+  "id": "c016",
+  "module": "SQL",
+  "q": "连续 N 天登录 / 活跃的用户",
+  "a": "date_sub 与 row_number 差值分组（gaps and islands），必背"
+ },
+ {
+  "id": "c017",
+  "module": "SQL",
+  "q": "每个类别销量 Top3 的商品",
+  "a": "row_number / rank + 子查询过滤，区分 rank 与 dense_rank"
+ },
+ {
+  "id": "c018",
+  "module": "SQL",
+  "q": "日活、次日留存、7 日留存",
+  "a": "自关联或窗口函数；说清留存口径（新增用户次日回访）"
+ },
+ {
+  "id": "c019",
+  "module": "SQL",
+  "q": "行列转换（行转列 / 列转行）",
+  "a": "case when + max / collect_list + explode，两方向各写两遍"
+ },
+ {
+  "id": "c020",
+  "module": "SQL",
+  "q": "求每个用户最近一次订单",
+  "a": "row_number 倒序取 1，或窗口 max 后关联"
+ },
+ {
+  "id": "c021",
+  "module": "SQL",
+  "q": "累计求和与移动平均",
+  "a": "sum over(order by ... rows between ...) 窗口帧"
+ },
+ {
+  "id": "c022",
+  "module": "SQL",
+  "q": "同比环比",
+  "a": "自关联去年同期 / 上月，或 lag/lead"
+ },
+ {
+  "id": "c023",
+  "module": "SQL",
+  "q": "漏斗转化率",
+  "a": "各步骤用户数去重后相除，注意去重与顺序"
+ },
+ {
+  "id": "c024",
+  "module": "SQL",
+  "q": "求中位数 / 分位数",
+  "a": "percent_rank / ntile / percentile 函数"
+ },
+ {
+  "id": "c025",
+  "module": "SQL",
+  "q": "分组后取每组最大值的整行",
+  "a": "join 子查询或 row_number，注意重复值"
+ },
+ {
+  "id": "c026",
+  "module": "SQL",
+  "q": "用户消费金额分层（区间统计）",
+  "a": "case when 分桶 + group by"
+ },
+ {
+  "id": "c027",
+  "module": "SQL",
+  "q": "去重（全字段去重 / 按主键保留一条）",
+  "a": "distinct 与 group by 的差异、row_number 去重"
+ },
+ {
+  "id": "c028",
+  "module": "SQL",
+  "q": "找出连续三天以上销量为 0 的日期区间",
+  "a": "连续区间问题，与第 1 题同族"
+ },
+ {
+  "id": "c029",
+  "module": "SQL",
+  "q": "计算每个用户最大连续登录天数",
+  "a": "分组计数取 max，面试高频"
+ },
+ {
+  "id": "c030",
+  "module": "SQL",
+  "q": "区间合并（会话切割）",
+  "a": "时间差 > 阈值 即新会话，lag + sum over"
+ },
+ {
+  "id": "c031",
+  "module": "SQL",
+  "q": "同表自关联求互相关注 / 共同好友",
+  "a": "join 条件与去重"
+ },
+ {
+  "id": "c032",
+  "module": "SQL",
+  "q": "找出重复数据",
+  "a": "group by having count > 1"
+ },
+ {
+  "id": "c033",
+  "module": "SQL",
+  "q": "多表关联的数据膨胀问题",
+  "a": "join 前先去重 / 预聚合，说明膨胀原因"
+ },
+ {
+  "id": "c034",
+  "module": "SQL",
+  "q": "统计活跃与新增的重合率",
+  "a": "集合运算 join 内/外"
+ },
+ {
+  "id": "c035",
+  "module": "SQL",
+  "q": "用 SQL 实现拉链表查询某天的全量快照",
+  "a": "区间条件 dt <= T and end_dt > T"
+ },
+ {
+  "id": "c036",
+  "module": "Hive / Hadoop",
+  "q": "Hive 与关系型数据库的区别",
+  "a": "计算引擎 vs 存储引擎；延迟、事务、索引、扩展性"
+ },
+ {
+  "id": "c037",
+  "module": "Hive / Hadoop",
+  "q": "内部表与外部表",
+  "a": "删除时的行为、元数据管理、生产上为什么多用外部表"
+ },
+ {
+  "id": "c038",
+  "module": "Hive / Hadoop",
+  "q": "分区表与分桶表的区别和用途",
+  "a": "分区避免全表扫描；分桶用于采样、join 优化、数据打散"
+ },
+ {
+  "id": "c039",
+  "module": "Hive / Hadoop",
+  "q": "order by / sort by / distribute by / cluster by",
+  "a": "全局排序 vs 局部排序、分区路由、组合关系与性能"
+ },
+ {
+  "id": "c040",
+  "module": "Hive / Hadoop",
+  "q": "Hive 数据倾斜怎么定位和解决",
+  "a": "定位（counter、key 分布、长尾 task）+ 解决（map join、加盐、空值打散、参数）"
+ },
+ {
+  "id": "c041",
+  "module": "Hive / Hadoop",
+  "q": "小文件问题怎么产生、怎么治理",
+  "a": "动态分区、insert 频繁、并行写；治理手段 4 种以上"
+ },
+ {
+  "id": "c042",
+  "module": "Hive / Hadoop",
+  "q": "map join 的原理与触发条件",
+  "a": "小表广播到 map 端，避免 shuffle；参数与阈值"
+ },
+ {
+  "id": "c043",
+  "module": "Hive / Hadoop",
+  "q": "一条 HQL 从提交到结果是怎样的过程",
+  "a": "解析 → 优化 → 生成执行计划 → 提交引擎 → shuffle → 输出"
+ },
+ {
+  "id": "c044",
+  "module": "Hive / Hadoop",
+  "q": "ORC 与 Parquet 的区别、列存为什么快",
+  "a": "列裁剪、谓词下推、压缩编码；说清你的选型理由"
+ },
+ {
+  "id": "c045",
+  "module": "Hive / Hadoop",
+  "q": "HDFS 写文件流程（含副本与 pipeline）",
+  "a": "必背，画图讲解"
+ },
+ {
+  "id": "c046",
+  "module": "Hive / Hadoop",
+  "q": "HDFS 读文件流程",
+  "a": "就近读取、短路读、checksum"
+ },
+ {
+  "id": "c047",
+  "module": "Hive / Hadoop",
+  "q": "NameNode 与 SecondaryNameNode 的关系",
+  "a": "editlog 与 fsimage 合并，不要答成备 NameNode"
+ },
+ {
+  "id": "c048",
+  "module": "Hive / Hadoop",
+  "q": "MapReduce 的 shuffle 全过程",
+  "a": "分区/排序/溢写/合并/拉取/归并，必背"
+ },
+ {
+  "id": "c049",
+  "module": "Hive / Hadoop",
+  "q": "YARN 的任务提交流程与调度器",
+  "a": "RM/NM/AM/Container 时序；Capacity 与 Fair 的取舍"
+ },
+ {
+  "id": "c050",
+  "module": "Hive / Hadoop",
+  "q": "UDF / UDAF / UDTF 区别与使用场景",
+  "a": "一进一出 / 多进一出 / 一进多出，举例说明"
+ },
+ {
+  "id": "c051",
+  "module": "Spark",
+  "q": "Spark 为什么比 MapReduce 快",
+  "a": "内存计算、DAG 优化减少落盘、算子融合、线程级任务调度，三到四点"
+ },
+ {
+  "id": "c052",
+  "module": "Spark",
+  "q": "RDD 的宽依赖与窄依赖",
+  "a": "划分 Stage 的依据、是否 shuffle、容错恢复代价"
+ },
+ {
+  "id": "c053",
+  "module": "Spark",
+  "q": "DAG 与 Stage 怎么划分",
+  "a": "从最后一个算子倒推，遇宽依赖切分，必背并能画图"
+ },
+ {
+  "id": "c054",
+  "module": "Spark",
+  "q": "RDD / DataFrame / DataSet 区别",
+  "a": "类型安全、执行优化、Catalyst；三者转换关系"
+ },
+ {
+  "id": "c055",
+  "module": "Spark",
+  "q": "缓存与 Checkpoint 的区别",
+  "a": "血缘截断、存储位置、可靠性、适用场景"
+ },
+ {
+  "id": "c056",
+  "module": "Spark",
+  "q": "广播变量的作用与原理",
+  "a": "避免 shuffle 与重复传输，结合小表 join 讲"
+ },
+ {
+  "id": "c057",
+  "module": "Spark",
+  "q": "数据倾斜怎么定位与解决",
+  "a": "UI 看 task 数据量分布 + 解决四板斧（加盐、skew join、AQE、拆分）"
+ },
+ {
+  "id": "c058",
+  "module": "Spark",
+  "q": "两种 OOM 的成因与解决",
+  "a": "driver 看拉取结果集/collect，executor 看分区过大/shuffle spill；分别给方案"
+ },
+ {
+  "id": "c059",
+  "module": "Spark",
+  "q": "spark.sql.shuffle.partitions 怎么设",
+  "a": "与数据量、核数关系，设太大太小各自的代价"
+ },
+ {
+  "id": "c060",
+  "module": "Spark",
+  "q": "AQE 是什么，解决什么问题",
+  "a": "合并小分区、join 策略动态切换、倾斜 join 拆分成子任务"
+ },
+ {
+  "id": "c061",
+  "module": "Spark",
+  "q": "BroadcastHashJoin 与 SortMergeJoin 如何选择",
+  "a": "阈值、小表广播、大表 smj 有排序；shuffled hash join 的适用场景"
+ },
+ {
+  "id": "c062",
+  "module": "Spark",
+  "q": "Catalyst 优化器做了什么",
+  "a": "逻辑计划 → 优化 → 物理计划；谓词下推、列裁剪、常量折叠"
+ },
+ {
+  "id": "c063",
+  "module": "Spark",
+  "q": "Spark 内存模型",
+  "a": "堆内 Execution / Storage / User / Reserved，堆外内存，统一内存管理"
+ },
+ {
+  "id": "c064",
+  "module": "Spark",
+  "q": "Spark on YARN 的两种模式区别",
+  "a": "client 与 cluster 的 Driver 位置、日志查看、适用场景"
+ },
+ {
+  "id": "c065",
+  "module": "Spark",
+  "q": "Kryo 序列化为什么更快",
+  "a": "对比 Java 序列化，怎么开启与注册"
+ },
+ {
+  "id": "c066",
+  "module": "Spark",
+  "q": "Shuffle 过程与调优",
+  "a": "Sort/Bypass 两种 writer、溢写、外部 shuffle 服务、小文件与压缩"
+ },
+ {
+  "id": "c067",
+  "module": "Spark",
+  "q": "Spark Streaming 与 Flink 的区别",
+  "a": "微批 vs 原生流、延迟、时间语义、状态与容错、Exactly-Once 实现方式"
+ },
+ {
+  "id": "c068",
+  "module": "Spark",
+  "q": "Spark 任务的调优清单",
+  "a": "从资源、并行度、数据倾斜、序列化、GC、存储格式六个维度回答"
+ },
+ {
+  "id": "c069",
+  "module": "Kafka",
+  "q": "Kafka 为什么快",
+  "a": "顺序写、页缓存、零拷贝、批量与压缩、分区并行"
+ },
+ {
+  "id": "c070",
+  "module": "Kafka",
+  "q": "如何保证消息不丢",
+  "a": "生产者 acks 与重试、副本与 min.insync.replicas、消费者手动提交"
+ },
+ {
+  "id": "c071",
+  "module": "Kafka",
+  "q": "如何保证不重复消费",
+  "a": "幂等生产者、事务、消费者幂等处理（下游去重）"
+ },
+ {
+  "id": "c072",
+  "module": "Kafka",
+  "q": "消息积压怎么处理",
+  "a": "扩分区与消费者、提升单批处理量、临时转存、定位消费变慢根因"
+ },
+ {
+  "id": "c073",
+  "module": "Kafka",
+  "q": "Rebalance 的触发条件与危害",
+  "a": "成员变化、分区变化、订阅变化；Stop the world，如何避免"
+ },
+ {
+  "id": "c074",
+  "module": "Kafka",
+  "q": "HW 与 LEO 的含义",
+  "a": "分区副本同步与可见性边界，与消息丢失的关系"
+ },
+ {
+  "id": "c075",
+  "module": "Kafka",
+  "q": "如何保证分区内有序",
+  "a": "相同 key 落同一分区、单分区单消费者、max.in.flight 配置影响"
+ },
+ {
+  "id": "c076",
+  "module": "Kafka",
+  "q": "消费者提交 offset 的时机",
+  "a": "自动提交的风险、手动同步/异步提交、重复与丢失的取舍"
+ },
+ {
+  "id": "c077",
+  "module": "Kafka",
+  "q": "ISR 是什么，什么时候会收缩",
+  "a": "副本落后阈值（replica.lag.time.max.ms），与可用性/一致性权衡"
+ },
+ {
+  "id": "c078",
+  "module": "Kafka",
+  "q": "Kafka 分区数怎么定",
+  "a": "依据并发消费能力与吞吐，分区过多的代价"
+ },
+ {
+  "id": "c079",
+  "module": "Flink",
+  "q": "Flink 与 Spark Streaming 的区别",
+  "a": "流处理模型、延迟、时间语义、状态与容错机制"
+ },
+ {
+  "id": "c080",
+  "module": "Flink",
+  "q": "Flink 架构与作业提交流程",
+  "a": "JM / TM / Slot / 资源申请，画时序图"
+ },
+ {
+  "id": "c081",
+  "module": "Flink",
+  "q": "并行度与 Slot 的关系",
+  "a": "Slot 共享、算子链、如何设置并行度层级"
+ },
+ {
+  "id": "c082",
+  "module": "Flink",
+  "q": "时间语义三种及适用场景",
+  "a": "事件时间 / 摄入时间 / 处理时间；生产为什么用事件时间"
+ },
+ {
+  "id": "c083",
+  "module": "Flink",
+  "q": "Watermark 机制与乱序处理",
+  "a": "生成方式、传播、多输入取最小、空闲分区、与窗口触发的关系"
+ },
+ {
+  "id": "c084",
+  "module": "Flink",
+  "q": "迟到数据怎么处理",
+  "a": "allowedLateness + 侧输出流 + 窗口重算，或下游纠偏"
+ },
+ {
+  "id": "c085",
+  "module": "Flink",
+  "q": "窗口类型与触发器",
+  "a": "滚动 / 滑动 / 会话 / 全局，触发器与驱逐器，窗口为什么左闭右开"
+ },
+ {
+  "id": "c086",
+  "module": "Flink",
+  "q": "Flink 状态类型",
+  "a": "KeyedState 与 OperatorState 分类、五种状态结构、适用场景"
+ },
+ {
+  "id": "c087",
+  "module": "Flink",
+  "q": "StateBackend 怎么选",
+  "a": "HashMap 与 RocksDB 的内存/性能/大状态权衡，增量 Checkpoint"
+ },
+ {
+  "id": "c088",
+  "module": "Flink",
+  "q": "Checkpoint 原理",
+  "a": "Barrier 对齐、快照、存储后端、恢复流程；非对齐 Checkpoint 解决什么"
+ },
+ {
+  "id": "c089",
+  "module": "Flink",
+  "q": "端到端 Exactly-Once 怎么实现",
+  "a": "Source 可重放 + 状态一致性 + Sink 两阶段提交/幂等，三部分缺一不可"
+ },
+ {
+  "id": "c090",
+  "module": "Flink",
+  "q": "Checkpoint 失败 / 变慢怎么排查",
+  "a": "状态大小、反压、存储 IO、超时与间隔、算子同步耗时长、网络缓冲"
+ },
+ {
+  "id": "c091",
+  "module": "Flink",
+  "q": "反压是什么，怎么定位和解决",
+  "a": "Flink 反压机制（基于缓冲的信用）、UI + 火焰图、解决手段"
+ },
+ {
+  "id": "c092",
+  "module": "Flink",
+  "q": "数据倾斜怎么解决",
+  "a": "加盐两阶段聚合、微批、自定义分区、局部预聚合"
+ },
+ {
+  "id": "c093",
+  "module": "Flink",
+  "q": "维表关联三种方式与取舍",
+  "a": "广播状态、Lookup Join（缓存+过期）、异步 IO，给出选型理由"
+ },
+ {
+  "id": "c094",
+  "module": "Flink",
+  "q": "Flink SQL 去重 / TopN 怎么写",
+  "a": "row_number over(partition by ... order by ...) + 过滤；状态是否会膨胀"
+ },
+ {
+  "id": "c095",
+  "module": "Flink",
+  "q": "Flink SQL 的 Retract 流与更新流",
+  "a": "动态表、回撤消息、聚合结果的更新语义"
+ },
+ {
+  "id": "c096",
+  "module": "Flink",
+  "q": "为什么 Flink 能做到低延迟高吞吐",
+  "a": "原生流、内存管理、网络栈与背压、批流一体优化"
+ },
+ {
+  "id": "c097",
+  "module": "Flink",
+  "q": "Flink 内存模型与调优",
+  "a": "TaskManager 内存分区（框架/网络/managed/JVM）、RocksDB 内存、GC 影响"
+ },
+ {
+  "id": "c098",
+  "module": "Flink",
+  "q": "状态无限增长怎么办",
+  "a": "状态 TTL、只保留必要字段、聚合后再存、外部存储卸载、定期清理"
+ },
+ {
+  "id": "c099",
+  "module": "数据仓库与数据平台",
+  "q": "数仓分层及各层职责",
+  "a": "ODS/DWD/DWS/ADS，说清为什么分层（解耦、复用、口径统一）"
+ },
+ {
+  "id": "c100",
+  "module": "数据仓库与数据平台",
+  "q": "为什么用维度建模而不是三范式",
+  "a": "面向分析、查询性能、业务可理解性；OLTP 与 OLAP 差异"
+ },
+ {
+  "id": "c101",
+  "module": "数据仓库与数据平台",
+  "q": "星型模型与雪花模型",
+  "a": "维度是否规范化、join 成本、维护成本"
+ },
+ {
+  "id": "c102",
+  "module": "数据仓库与数据平台",
+  "q": "事实表三种类型",
+  "a": "事务事实、周期快照、累积快照，各举一例"
+ },
+ {
+  "id": "c103",
+  "module": "数据仓库与数据平台",
+  "q": "SCD 缓慢变化维怎么处理",
+  "a": "Type1/2/3 + 拉链表实现，会写 SQL"
+ },
+ {
+  "id": "c104",
+  "module": "数据仓库与数据平台",
+  "q": "拉链表原理与实现",
+  "a": "开链闭链、更新流程、查历史快照的 SQL"
+ },
+ {
+  "id": "c105",
+  "module": "数据仓库与数据平台",
+  "q": "指标体系怎么设计",
+  "a": "原子指标 / 派生指标 / 复合指标，口径管理与唯一口径"
+ },
+ {
+  "id": "c106",
+  "module": "数据仓库与数据平台",
+  "q": "数据质量怎么保障",
+  "a": "规则（唯一、非空、范围、波动、及时性）+ 对账 + 告警 + 根因流程"
+ },
+ {
+  "id": "c107",
+  "module": "数据仓库与数据平台",
+  "q": "实时数仓与离线数仓的差异",
+  "a": "分层、存储、时效、一致性、成本"
+ },
+ {
+  "id": "c108",
+  "module": "数据仓库与数据平台",
+  "q": "Lambda 与 Kappa 架构",
+  "a": "双链路成本 vs 单链路复杂度；流批一体的意义"
+ },
+ {
+  "id": "c109",
+  "module": "数据仓库与数据平台",
+  "q": "数据湖与数据仓库的区别",
+  "a": "存储格式、schema 演进、事务能力、存算分离；Iceberg/Paimon 解决什么"
+ },
+ {
+  "id": "c110",
+  "module": "数据仓库与数据平台",
+  "q": "OLAP 选型",
+  "a": "ClickHouse / Doris / StarRocks / Druid 对比：写入、点查、多表 join、运维"
+ },
+ {
+  "id": "c111",
+  "module": "场景与调优题",
+  "q": "离线任务突然跑了 3 小时（平时 30 分钟）",
+  "a": "查数据量变化 → 查数据倾斜 → 查小文件 / 分区 → 查资源抢占 → 查上游延迟"
+ },
+ {
+  "id": "c112",
+  "module": "场景与调优题",
+  "q": "Hive 任务 OOM",
+  "a": "看是 map 还是 reduce 端，调内存/并行度/mapjoin，避免全局排序"
+ },
+ {
+  "id": "c113",
+  "module": "场景与调优题",
+  "q": "Spark 任务卡在最后一个 stage",
+  "a": "看 task 数据分布（倾斜）、shuffle 分区数、是否数据膨胀"
+ },
+ {
+  "id": "c114",
+  "module": "场景与调优题",
+  "q": "Flink 作业频繁重启",
+  "a": "查 Checkpoint 失败原因、OOM、反压、状态过大、GC"
+ },
+ {
+  "id": "c115",
+  "module": "场景与调优题",
+  "q": "实时指标延迟升高",
+  "a": "从源头 QPS、Kafka 积压、反压链、下游 OLAP 写入、GC 逐段排查"
+ },
+ {
+  "id": "c116",
+  "module": "场景与调优题",
+  "q": "Kafka 消息积压严重",
+  "a": "扩分区与消费者、提高单批、临时扩容、定位消费变慢算子"
+ },
+ {
+  "id": "c117",
+  "module": "场景与调优题",
+  "q": "数据对不上（实时 vs 离线）",
+  "a": "口径、时间边界、去重逻辑、迟到数据、更新覆盖、时区"
+ },
+ {
+  "id": "c118",
+  "module": "场景与调优题",
+  "q": "数据重复写入",
+  "a": "幂等设计、事务、主键去重、检查 Sink 语义与重启策略"
+ },
+ {
+  "id": "c119",
+  "module": "场景与调优题",
+  "q": "任务被 kill 后怎么恢复",
+  "a": "Checkpoint / Savepoint 恢复、手工补数、幂等回滚"
+ },
+ {
+  "id": "c120",
+  "module": "场景与调优题",
+  "q": "集群资源不足怎么优化",
+  "a": "任务合并、错峰调度、资源队列、小任务治理、成本收益分析"
+ },
+ {
+  "id": "c121",
+  "module": "场景与调优题",
+  "q": "数据质量事故：指标异常波动",
+  "a": "校验规则告警 → 影响面评估（血缘）→ 止血（回滚/下线）→ 根因 → 复盘机制"
+ },
+ {
+  "id": "c122",
+  "module": "场景与调优题",
+  "q": "让你从 0 设计一条实时链路",
+  "a": "需求与 SLA → 源端采样 → 采集（CDC/日志）→ 传输 → 计算 → 存储 → 服务 → 监控告警，讲全链路"
+ },
+ {
+  "id": "c123",
+  "module": "手写代码",
+  "q": "WordCount（MapReduce 或 Spark 或 Flink 任一）",
+  "a": "三套都写一遍，面试常让你白板写"
+ },
+ {
+  "id": "c124",
+  "module": "手写代码",
+  "q": "手写 Flink 窗口聚合作业骨架",
+  "a": "Source → keyBy → window → aggregate → Sink，含 watermark 设置"
+ },
+ {
+  "id": "c125",
+  "module": "手写代码",
+  "q": "手写 Kafka 生产者与消费者（含手动提交）",
+  "a": "Java / Python 均可"
+ },
+ {
+  "id": "c126",
+  "module": "手写代码",
+  "q": "数组两数之和、合并区间、字符串反转",
+  "a": "LeetCode 简单题，笔试高频"
+ },
+ {
+  "id": "c127",
+  "module": "手写代码",
+  "q": "二分查找、快排、链表反转",
+  "a": "基础算法，必须一次写对"
+ },
+ {
+  "id": "c128",
+  "module": "手写代码",
+  "q": "统计文件中出现次数 Top10 的单词（Python）",
+  "a": "体现工程能力，注意大文件用生成器"
+ },
+ {
+  "id": "c129",
+  "module": "项目与 HR",
+  "q": "介绍你最有挑战的项目",
+  "a": "90 秒版本 + 追问预案（见第 4 章）"
+ },
+ {
+  "id": "c130",
+  "module": "项目与 HR",
+  "q": "项目里最难的问题是什么，怎么解决",
+  "a": "讲真实踩坑，四段式：现象 → 定位 → 手段 → 结果"
+ },
+ {
+  "id": "c131",
+  "module": "项目与 HR",
+  "q": "你对实时计算方向的理解",
+  "a": "业务价值 + 技术挑战（乱序、状态、一致性、成本）"
+ },
+ {
+  "id": "c132",
+  "module": "项目与 HR",
+  "q": "为什么从原行业转大数据",
+  "a": "讲清动机 + 自学证据（项目 / 笔记 / 代码仓库）"
+ },
+ {
+  "id": "c133",
+  "module": "项目与 HR",
+  "q": "没有大数据工作经验，怎么证明你能干",
+  "a": "用项目、量化结果、踩坑深度、持续学习记录回答"
+ },
+ {
+  "id": "c134",
+  "module": "项目与 HR",
+  "q": "期望薪资",
+  "a": "先问岗位范围，给区间不给单点，按成都市场与自身水平对齐"
+ },
+ {
+  "id": "c135",
+  "module": "项目与 HR",
+  "q": "职业规划",
+  "a": "1 年打扎实开发、2–3 年往数据平台 / 架构走"
+ },
+ {
+  "id": "c136",
+  "module": "项目与 HR",
+  "q": "你还有什么问题",
+  "a": "问团队技术栈、数据量级、方向侧重、新人培养机制"
+ }
+]

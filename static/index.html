@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL 训练场 · 成都大数据面试</title>
+<link rel="stylesheet" href="/vendor/codemirror.min.css">
+<link rel="stylesheet" href="/vendor/show-hint.min.css">
+<link rel="stylesheet" href="/vendor/material-darker.min.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="logo">SQL<b>训练场</b><span class="sub">复杂 SQL 实战 · 随机出题 · 自动判题</span></div>
+  <nav>
+    <button data-view="bank" class="active">题库</button>
+    <button data-view="wrong">错题本</button>
+    <button data-view="flash">理论卡片</button>
+    <button data-view="stats">统计</button>
+  </nav>
+  <div class="spacer"></div>
+  <div class="kpi">
+    <span>已通过 <b id="kpi-passed">–</b>/<span id="kpi-total">–</span></span>
+    <span>提交 <b id="kpi-submits">–</b></span>
+    <span class="dim" id="kpi-days"></span>
+  </div>
+</header>
+
+<main>
+  <aside id="sidebar"><div class="empty">加载题库中…</div></aside>
+  <div class="content" id="content"><div class="empty">加载中…</div></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="/vendor/codemirror.min.js"></script>
+<script src="/vendor/sql.min.js"></script>
+<script src="/vendor/matchbrackets.min.js"></script>
+<script src="/vendor/show-hint.min.js"></script>
+<script src="/vendor/sql-hint.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
